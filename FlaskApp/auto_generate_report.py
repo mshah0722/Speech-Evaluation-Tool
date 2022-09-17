@@ -32,7 +32,7 @@ def generateEvaluation(_text):
     stop_sequences=["--"],
     return_likelihoods='NONE')
     print('Evaluation: {}'.format(response.generations[0].text))
-    return {}..format(response.generations[0].text)
+    return {}.format(response.generations[0].text)
 
 # generateEvaluation(_text)
 

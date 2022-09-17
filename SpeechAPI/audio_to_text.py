@@ -11,48 +11,45 @@ def configure():
 
 configure()
 
-# authorization
-headers = {
-    "authorization": os.getenv('assembly_api_key'),
-    "content-type": "application/json"
-}
 
-# upload local file to assembly
-filename = "audio/test.mp3"
+def audio_to_text(filepath):
+    # authorization
+    headers = {
+        "authorization": os.getenv('assembly_api_key'),
+        "content-type": "application/json"
+    }
 
+    def read_file(filename, chunk_size=5242880):
+        with open(filename, 'rb') as _file:
+            while True:
+                data = _file.read(chunk_size)
+                if not data:
+                    break
+                yield data
 
-def read_file(filename, chunk_size=5242880):
-    with open(filename, 'rb') as _file:
-        while True:
-            data = _file.read(chunk_size)
-            if not data:
-                break
-            yield data
+    response = requests.post('https://api.assemblyai.com/v2/upload',
+                             headers=headers,
+                             data=read_file(filename))
 
+    audio_url = response.json()['upload_url']
 
-response = requests.post('https://api.assemblyai.com/v2/upload',
-                         headers=headers,
-                         data=read_file(filename))
+    # post transcription request
+    postEndpoint = "https://api.assemblyai.com/v2/transcript"
+    json = {
+        "audio_url": audio_url
+    }
+    response = requests.post(postEndpoint, json=json, headers=headers)
 
-audio_url = response.json()['upload_url']
+    # store transcription id
+    id = response.json()['id']
 
-# post transcription request
-postEndpoint = "https://api.assemblyai.com/v2/transcript"
-json = {
-    "audio_url": audio_url
-}
-response = requests.post(postEndpoint, json=json, headers=headers)
+    # get transcription using id
+    getEndpoint = "https://api.assemblyai.com/v2/transcript/"+id
 
-# store transcription id
-id = response.json()['id']
-
-# get transcription using id
-getEndpoint = "https://api.assemblyai.com/v2/transcript/"+id
-
-response = requests.get(getEndpoint, headers=headers)
-while not response.json()['status'] == "completed":
     response = requests.get(getEndpoint, headers=headers)
-    print(response.json()['status'])
-    time.sleep(1)
+    while not response.json()['status'] == "completed":
+        response = requests.get(getEndpoint, headers=headers)
+        print(response.json()['status'])
+        time.sleep(1)
 
-print(response.json()['text'])
+    return response.json()['text']

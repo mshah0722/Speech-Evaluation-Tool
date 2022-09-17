@@ -1,11 +1,19 @@
+import os
 from doctest import REPORT_CDIFF
 import requests
 import time
-from get_assembly_key import get_assembly_key
+from dotenv import load_dotenv
+
+
+def configure():
+    load_dotenv()
+
+
+configure()
 
 # authorization
 headers = {
-    "authorization": get_assembly_key(),
+    "authorization": os.getenv('assembly_api_key'),
     "content-type": "application/json"
 }
 

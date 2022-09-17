@@ -1,6 +1,7 @@
 import importlib.util as ilu
+from re import template
 from werkzeug.utils import secure_filename
-from flask import Flask, flash, request, redirect, url_for, render_template
+from flask import Flask, send_from_directory, flash, jsonify, request, redirect, url_for, render_template, make_response
 import audio_to_text
 import video_to_audio
 import os
@@ -8,18 +9,19 @@ from doctest import REPORT_CDIFF
 import requests
 import time
 from dotenv import load_dotenv
+from flask_cors import CORS, cross_origin
 
 
-app = Flask(__name__, template_folder='template')
-app.config['UPLOAD_FOLDER'] = "./video"
+app = Flask(__name__, template_folder=template)
+app.config['UPLOAD_FOLDER'] = "./assets"
 
 
-@app.route('/', methods=['GET'])
-def homepage():
-    return render_template('index.html')
+@app.route('/try')
+def trial():
+    return {"trial": "4", "5": "8"}
 
 
-@app.route('/', methods=["POST"])
+@app.route('/upload', methods=["POST"])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -36,10 +38,15 @@ def upload_file():
             filename = file.filename
             print(filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('display_video', name=filename))
+            return {"filename": filename}
 
 
-@app.route('/<name>')
+@app.route('/<name>', methods=["GET"])
+def download_file(name):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
+
+
+@app.route('/generate-report/<name>')
 def display_video(name):
 
     def configure():
@@ -92,8 +99,10 @@ def display_video(name):
 
     print(response.json()['text'])
 
-    return response.json()['text']
+    return {'text': response.json()['text']}
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
+
+CORS(app, expose_headers='Authorization')

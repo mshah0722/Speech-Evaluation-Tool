@@ -1,50 +1,55 @@
+import os
 from doctest import REPORT_CDIFF
 import requests
 import time
-from get_assembly_key import get_assembly_key
-
-# authorization
-headers = {
-    "authorization": get_assembly_key(),
-    "content-type": "application/json"
-}
-
-# upload local file to assembly
-filename = "audio/test.mp3"
+from dotenv import load_dotenv
 
 
-def read_file(filename, chunk_size=5242880):
-    with open(filename, 'rb') as _file:
-        while True:
-            data = _file.read(chunk_size)
-            if not data:
-                break
-            yield data
+def configure():
+    load_dotenv()
 
 
-response = requests.post('https://api.assemblyai.com/v2/upload',
-                         headers=headers,
-                         data=read_file(filename))
+configure()
 
-audio_url = response.json()['upload_url']
 
-# post transcription request
-postEndpoint = "https://api.assemblyai.com/v2/transcript"
-json = {
-    "audio_url": audio_url
-}
-response = requests.post(postEndpoint, json=json, headers=headers)
+def audio_to_text(filepath):
+    # authorization
+    headers = {
+        "authorization": os.getenv('assembly_api_key'),
+        "content-type": "application/json"
+    }
 
-# store transcription id
-id = response.json()['id']
+    def read_file(filename, chunk_size=5242880):
+        with open(filename, 'rb') as _file:
+            while True:
+                data = _file.read(chunk_size)
+                if not data:
+                    break
+                yield data
 
-# get transcription using id
-getEndpoint = "https://api.assemblyai.com/v2/transcript/"+id
+    response = requests.post('https://api.assemblyai.com/v2/upload',
+                             headers=headers,
+                             data=read_file(filename))
 
-response = requests.get(getEndpoint, headers=headers)
-while not response.json()['status'] == "completed":
+    audio_url = response.json()['upload_url']
+
+    # post transcription request
+    postEndpoint = "https://api.assemblyai.com/v2/transcript"
+    json = {
+        "audio_url": audio_url
+    }
+    response = requests.post(postEndpoint, json=json, headers=headers)
+
+    # store transcription id
+    id = response.json()['id']
+
+    # get transcription using id
+    getEndpoint = "https://api.assemblyai.com/v2/transcript/"+id
+
     response = requests.get(getEndpoint, headers=headers)
-    print(response.json()['status'])
-    time.sleep(1)
+    while not response.json()['status'] == "completed":
+        response = requests.get(getEndpoint, headers=headers)
+        print(response.json()['status'])
+        time.sleep(1)
 
-print(response.json()['text'])
+    return response.json()['text']

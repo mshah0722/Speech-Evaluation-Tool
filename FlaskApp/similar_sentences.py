@@ -82,20 +82,23 @@ def searchSimilar(df, _size, search_index, window = 3, thres = 0.82):
 
 
 
+    pairs = []
     for n1 in range(_size-window):
         
         for n2 in range(n1+1, n1 + window):
             distance = search_index.get_distance(n1, n2)
             # print(distance)
             if distance < thres:
+                pairs.append((n1, n2))
                 print("\n >>> ", n1, n2, "These ideas might be repeating and are too close")
     
+    return pairs
 
 def test(_text):
     df, search_index = getSearchIndex(_text)
     searchSimilar(df, search_index.get_n_items(), search_index, 3)
 
-test(_text)
+# test(_text)
 
 
     

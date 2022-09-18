@@ -1,7 +1,8 @@
 import numpy as np
 import cv2
 from util.analysis_realtime import analysis
-
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 def getVideoAndGraph():
@@ -22,31 +23,46 @@ def getVideoAndGraph():
 
     preds_graph = []
 
+    count = 0
+
     while(cap.isOpened()):
         ret, frame = cap.read()
-        # result.write(frame)
+        result.write(frame)
 
-        pred, bm = ana.detect_face(frame)
-        print(pred)
+        if ret:
 
-        if pred == "You are highly engaged!":
-            preds_graph.append(5)
-        elif pred == "You are engaged.":
-            preds_graph.append(4)
-        else:
-            preds_graph.append(2)
-        
-        cv2.imshow('Frame',frame)
+            pred, bm = ana.detect_face(frame)
+            print(pred)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+            if pred == "You are highly engaged!":
+                preds_graph.append(5)
+            elif pred == "You are engaged.":
+                preds_graph.append(4)
+            else:
+                preds_graph.append(2)
+            
+            cv2.imshow('Frame',frame)
+
+            count += 30 # i.e. at 30 fps, this advances one second
+            cap.set(cv2.CAP_PROP_POS_FRAMES, count)
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        else:    
+            cap.release()
+            result.release()
             break
-
-    cap.release()
-    result.release()
+        
+    _x = [i+1 for i in range(len(preds_graph))]
+    # sns.lineplot(_x, preds_graph)
+    # plt.savefig('../images/graph.png')
+    
 
     cv2.destroyAllWindows()
 
+    predictionPercentages = {'high': (preds_graph.count(5)/len(preds_graph)) * 100, 'good': (preds_graph.count(4)/len(preds_graph))*100, 'low': (preds_graph.count(2)/len(preds_graph))*100}
     
-    return preds_graph
+    return predictionPercentages
 
 predValues = getVideoAndGraph()
+print(predValues)

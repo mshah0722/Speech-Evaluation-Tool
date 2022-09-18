@@ -94,6 +94,7 @@ class analysis:
         font = cv2.FONT_HERSHEY_SIMPLEX
         faces = self.detector(gray)
         benchmark = []
+        _ci = None
         for face in faces:
             x, y = face.left(), face.top()
             x1, y1 = face.right(), face.bottom()
@@ -117,6 +118,7 @@ class analysis:
             benchmark.append([gaze_ratio_lr, gaze_ratio_ud, left_eye_ratio])
             emotion = self.detect_emotion(gray)
             ci = self.gen_concentration_index()
+            _ci = ci
             # cv2.putText(frame, "x: "+str(gaze_ratio_lr),
             #             (50, 100), font, 2, (0, 0, 255), 3)
             # cv2.putText(frame, "y: "+str(gaze_ratio_ud),
@@ -133,7 +135,9 @@ class analysis:
             self.x = gaze_ratio_lr
             self.y = gaze_ratio_ud
             self.size = left_eye_ratio
-        return ci, frame
+
+        # Assuming only one face
+        return _ci, frame
 
 # Function for detecting emotion
 

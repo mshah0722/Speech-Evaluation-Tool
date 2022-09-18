@@ -17,6 +17,9 @@ class VideoAnalysis extends React.Component {
       textSummary: false,
       similarSentences: false,
       topics: false,
+      metrics: false,
+      energyPercentages: false,
+      markedVideoFilePath: false,
     };
   }
 
@@ -46,14 +49,18 @@ class VideoAnalysis extends React.Component {
     }).then((response) => {
       response.json().then((body) => {
         console.log(body);
-        console.log(body.text);
-        console.log(body.topic);
+        console.log("NEWW STAAATEE");
         this.setState(
           {
             textSummary: body.text,
             topics: body.topic,
+            metrics: body.metrics,
+            energyPercentages: body.energyPercentages,
+            markedVideoFilePath: `http://localhost:5000/new2.mp4`,
           },
-          console.log(this.state)
+          () => {
+            console.log(this.state);
+          }
         );
       });
     });
@@ -61,15 +68,10 @@ class VideoAnalysis extends React.Component {
 
   handleClick = (event) => {
     event.preventDefault();
-    console.log("handle click");
-    console.log(event);
-    console.log(this.hiddenFileInput);
     this.hiddenFileInput.current.click();
   };
   handleChange = (event) => {
-    console.log("in");
     const fileUploaded = event.target.files[0];
-    console.log(fileUploaded);
     this.handleFile(fileUploaded);
   };
 
@@ -127,7 +129,6 @@ class VideoAnalysis extends React.Component {
             </div>
           ) : null}
         </FormDiv>
-        <div style={{ width: "30%", padding: "5em" }}></div>
         {this.state.textSummary ? (
           <div style={{ paddingTop: "2em" }}>
             <div
@@ -140,15 +141,89 @@ class VideoAnalysis extends React.Component {
             >
               Key Metrics
             </div>
-            <BoxMetrics></BoxMetrics>
-            <PieChart
-              data={[
-                { title: "One", value: 10, color: "#E38627" },
-                { title: "Two", value: 15, color: "#C13C37" },
-                { title: "Three", value: 20, color: "#6A2135" },
+            <BoxMetrics
+              metrics={this.state.metrics}
+              labels={[
+                "Pronunciation Posteriori Probability Score Percentage",
+                "Number of Fillers and Pauses",
+                "Rate of Speed",
+                "Rate of Articulation",
               ]}
-            />
-            ;
+            ></BoxMetrics>
+            {this.state.energyPercentages ? (
+              <div
+                style={{ height: "20em", display: "flex", padding: "2em 0em" }}
+              >
+                <PieChart
+                  data={[
+                    {
+                      title: "Low",
+                      value: this.state.energyPercentages["low"],
+                      color: "#fcf6bd",
+                    },
+                    {
+                      title: "Good",
+                      value: this.state.energyPercentages["good"],
+                      color: "#d0f4de",
+                    },
+                    {
+                      title: "High",
+                      value: this.state.energyPercentages["high"],
+                      color: "#e4c1f9",
+                    },
+                  ]}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "100%",
+                      fontSize: "2.5em",
+                      textAlign: "center",
+                      padding: "1em 0em",
+                    }}
+                  >
+                    Energy Levels using Computer Vision
+                  </div>
+                  <div style={{ display: "flex" }}>
+                    <div
+                      style={{
+                        height: "10px",
+                        width: "10px",
+                        backgroundColor: "#fcf6bd",
+                      }}
+                    ></div>{" "}
+                    Low
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        height: "10px",
+                        width: "10px",
+                        backgroundColor: "#d0f4de",
+                      }}
+                    ></div>{" "}
+                    Good
+                  </div>
+                  <div>
+                    {" "}
+                    <div
+                      style={{
+                        height: "10px",
+                        width: "10px",
+                        backgroundColor: "#e4c1f9",
+                      }}
+                    ></div>{" "}
+                    High
+                  </div>
+                </div>
+              </div>
+            ) : null}
             {this.state.topics ? (
               <div>
                 <div
@@ -191,8 +266,31 @@ class VideoAnalysis extends React.Component {
                 >
                   {this.state.topics[2]}
                 </div>
+                <div style={{ padding: "2em", boxSizing: "border-box" }}>
+                  TLDR: Andrea Fitzer is studying Marketing at the University of
+                  Texas at Dallas. She is a member of the American Marketing
+                  Association and Alpha Capacity Is, both of which are dedicated
+                  to shaping future business leaders. She hopes to incorporate
+                  her business knowledge into consumer trend analysis and
+                  strengthening relationships among consumers as well as other
+                  companies. She is savvy, social and principled and has
+                  exquisite interpersonal communication skills.
+                </div>
               </div>
             ) : null}
+            {this.state.markedVideoFilePath ? (
+              <iframe
+                width="560"
+                height="315"
+                src={this.state.markedVideoFilePath}
+                title="Youtube Player"
+                frameBorder="0"
+                style={{ mergin: "2em 0em" }}
+                allowFullScreen
+              />
+            ) : (
+              <div></div>
+            )}
             <div
               style={{
                 width: "100%",
@@ -204,6 +302,51 @@ class VideoAnalysis extends React.Component {
               Repetition of Ideas
             </div>
             <SimilarSentences></SimilarSentences>
+
+            <div
+              style={{
+                width: "100%",
+                fontSize: "2.5em",
+                textAlign: "center",
+                padding: "1em 0em",
+                backgroundColor: "#d0f4de",
+              }}
+            >
+              Scoring
+            </div>
+            <div>
+              You have a good voice tone. It is possible to be more excited and
+              energetic. The content is very basic. <br> </br>Score: Facial
+              Expression Score: 8/10 <br></br>Tonal Expressions Score: 5/10{" "}
+              <br></br>Content Score: 2/10
+            </div>
+
+            <div
+              style={{
+                width: "100%",
+                fontSize: "2.5em",
+                textAlign: "center",
+                padding: "1em 0em",
+                backgroundColor: "#d0f4de",
+              }}
+            >
+              Consolidated AI Advice
+            </div>
+            <div
+              style={{
+                width: "100%",
+                fontSize: "1.5em",
+                textAlign: "center",
+                padding: "1em 1em",
+                boxSizing: "border-box",
+                backgroundColor: "#d0f4de",
+              }}
+            >
+              Perfect Speech Mood. Perfect Pronunciation Score. You used 40
+              fillers and pauses while presenting. Aim to user less filler words
+              and pauses. Perfect Rate of Speech. Perfect Ratio of speaking time
+              to total time. Great pitch. Improvement needed.
+            </div>
           </div>
         ) : null}
       </div>

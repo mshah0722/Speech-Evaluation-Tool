@@ -1,7 +1,7 @@
 mysp=__import__("my-voice-analysis")
                      
 p="Pitch1" # Audio File title
-c=r"/Users/malharshah/Desktop/Speech-Evaluation-Tool/SpeechAPI/wav" # Path to the Audio_File directory
+c=r"C:\\Users\\lenovo\\Desktop\\HTN\\Speech-Evaluation-Tool\\FlaskApp\\assets" # Path to the Audio_File directory
 
 #Store the processed input for the speech here
 speechProcessedInput = ""

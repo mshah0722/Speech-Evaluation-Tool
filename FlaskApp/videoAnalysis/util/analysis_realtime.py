@@ -11,12 +11,12 @@ class analysis:
 
     # Initialise models
     def __init__(self):
-        self.emotion_model = load_model('./util/model/emotion_recognition.h5')
+        self.emotion_model = load_model('./videoAnalysis/util/model/emotion_recognition.h5')
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor(
-            "./util/model/shape_predictor_68_face_landmarks.dat")
+            "./videoAnalysis/util/model/shape_predictor_68_face_landmarks.dat")
         self.faceCascade = cv2.CascadeClassifier(
-            './util/model/haarcascade_frontalface_default.xml')
+            './videoAnalysis/util/model/haarcascade_frontalface_default.xml')
         self.x = 0
         self.y = 0
         self.emotion = 5

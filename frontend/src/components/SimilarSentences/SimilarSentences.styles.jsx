@@ -23,11 +23,11 @@ export const Box = styled.div`
 `;
 
 export const RedLine = styled.div`
-  font-size: 1em;
+  font-size: 1.5em;
   font-weight: 600;
   color: #ff595e;
 `;
 
 export const Line = styled.div`
-  font-size: 1em;
+  font-size: 1.5em;
 `;

@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from flask_cors import CORS, cross_origin
 from topic_modelling import importantTopicsFromText
 from videoAnalysis.video_analysis import getVideoAndGraph
+from speech_processing import speech_processing
 
 
 app = Flask(__name__, template_folder=template)
@@ -53,11 +54,12 @@ def display_video(name):
     def configure():
         load_dotenv()
     configure()
+    
     video_to_audio.extractAudioFromMP4(
         app.config["UPLOAD_FOLDER"]+"/"+name,  app.config["UPLOAD_FOLDER"]+"/"+name[:-4]+".wav")
     # text = audio_to_text.audio_to_text(name)
     filename = name
-    filepath = "./assets/"+filename[:-4]+".mp3"
+    filepath = "./assets/"+filename[:-4]+".wav"
     print(filepath)
     # authorization
     headers = {
@@ -101,12 +103,13 @@ def display_video(name):
 
     text = response.json()['text']
     topic = importantTopicsFromText(text)
-    energyPercentages = getVideoAndGraph()
+    energyPercentages = getVideoAndGraph("./assets/"+filename[:-4]+".mp4")
     # similar_sentences = similarSentence(text)
 
     # print(text, similar_sentences)
+    metrics = speech_processing()
 
-    return {'text': text, 'topic': topic, 'energyPercentages': energyPercentages}
+    return {'text': text, 'topic': topic, 'metrics':metrics, 'energyPercentages':energyPercentages}
 
 
 if __name__ == '__main__':

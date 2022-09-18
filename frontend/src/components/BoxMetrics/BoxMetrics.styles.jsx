@@ -14,7 +14,7 @@ export const Box = styled.div`
   flex: 0.2;
   background-color: ${(props) => props.color};
   border-radius: 10px;
-  padding: 2em;
+  padding: 1em;
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;

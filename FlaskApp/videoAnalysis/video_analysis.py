@@ -1,12 +1,12 @@
 import numpy as np
 import cv2
-from util.analysis_realtime import analysis
+from videoAnalysis.util.analysis_realtime import analysis
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-def getVideoAndGraph():
-    cap = cv2.VideoCapture('../video/test.mp4')
+def getVideoAndGraph(filepath):
+    cap = cv2.VideoCapture("./assets/30seconds.mp4")
     ana = analysis()
 
     if (cap.isOpened() == False):
@@ -17,7 +17,7 @@ def getVideoAndGraph():
 
     size = (frame_width, frame_height)
 
-    result = cv2.VideoWriter('../assets/markedTest.mp4',
+    result = cv2.VideoWriter('../assets/markedTest1.mp4',
                              cv2.VideoWriter_fourcc(*'MP4V'),
                              10, size)
 
@@ -65,5 +65,5 @@ def getVideoAndGraph():
     return predictionPercentages
 
 
-predValues = getVideoAndGraph()
-print(predValues)
+# predValues = getVideoAndGraph()
+# print(predValues)

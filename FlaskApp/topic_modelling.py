@@ -25,7 +25,7 @@ def importantTopicsFromText(_text):
             \n\nExtracted Text:\nTopics: Python, Python programming, Python source code, Tutorial, Job\n--\n\
             Text: An algorithm is a procedure used for solving a problem or performing a computation. Algorithms act as an exact list of instructions that conduct specified actions step by step in either hardware- or software-based routines. Algorithms are widely used throughout all areas of IT. An algorithm could be used for sorting sets of numbers or for more complicated tasks, like recommending user content on social media. Algorithms typically start with initial input and instructions that describe a specific computation. When the computation is executed, the process produces an output.\
             \n\nExtracted Text:\nTopics: Algorithms, Sorting, Computer science, IT, IT careers\n--\nText:'
-    _prompt = _prompt + _text + "\n\nExtracted Text:"
+    _prompt = _prompt + _text + "\n\nExtracted Text:\nTopics:"
     # print(_prompt)
 
     response = co.generate(

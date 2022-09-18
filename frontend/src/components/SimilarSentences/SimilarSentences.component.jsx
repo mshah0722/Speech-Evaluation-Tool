@@ -4,18 +4,16 @@ import { ContainerDiv, Box, RedLine, Line } from "./SimilarSentences.styles";
 const SimilarSentences = () => {
   const data = [
     {
-      first: "Hello my name is jpanintj. ",
-      mid: "Hello my name is jpanintj. ",
-      last: "Hello my name is jpanintj.",
+      first:
+        "A strong self-introduction will help new acquaintances learn the most essential details about who you are in a way that’s engaging and memorable. ",
+      mid: "In this article we define a self-introduction and offer you tips and examples so you can write your own effective self-introduction. ",
+      last: "When you deliver a powerful self-introduction, you can make a lasting positive impression on people.",
     },
-    { first: "Hello", mid: "10", last: "#fcf6bd" },
-    { first: "Hello", mid: "10", last: "#d0f4de" },
-    { first: "Hello", mid: "10", last: "#e4c1f9" },
   ];
   return (
     <ContainerDiv>
-      {data.map((elem) => (
-        <Box>
+      {data.map((elem, index) => (
+        <Box key={index}>
           <Line>
             <span style={{ fontWeight: "600", color: "#ff595e" }}>
               {elem.first}

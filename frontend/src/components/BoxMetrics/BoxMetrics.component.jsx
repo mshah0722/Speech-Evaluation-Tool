@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import {
-  Hamburger,
-  Navbar,
-  NavContent,
-  NavItem,
-  NavItems,
-  NavLink,
-  NavLogo,
-  NavLinkButton,
-} from "./Navbar.styles";
-import logo from "../../assets/Orator ME.png";
+import { ContainerDiv, Box, Number, Text } from "./BoxMetrics.styles";
 
-const NavBar = () => {
+const BoxMetrics = () => {
+  const data = [
+    { text: "Hello", number: "10" },
+    { text: "Hello", number: "10" },
+    { text: "Hello", number: "10" },
+    { text: "Hello", number: "10" },
+  ];
   return (
-    <Navbar>
-      <img src={logo} style={{ height: "4em" }} />
-    </Navbar>
+    <ContainerDiv>
+      {data.map((elem) => (
+        <Box>
+          <Number>{elem.number}</Number>
+          <Text>{elem.Text}</Text>
+        </Box>
+      ))}
+    </ContainerDiv>
   );
 };
 
-export default NavBar;
+export default BoxMetrics;

@@ -1,4 +1,5 @@
 import React from "react";
+import BoxMetrics from "../BoxMetrics/BoxMetrics.component";
 import { Button, FormDiv } from "./VideoAnalysis.style";
 
 class VideoAnalysis extends React.Component {
@@ -96,6 +97,7 @@ class VideoAnalysis extends React.Component {
             <div></div>
           )}
         </FormDiv>
+        <BoxMetrics></BoxMetrics>
       </div>
     );
   }

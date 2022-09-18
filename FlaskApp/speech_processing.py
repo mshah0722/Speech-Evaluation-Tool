@@ -1,7 +1,7 @@
 mysp=__import__("my-voice-analysis")
                      
 p="Pitch1" # Audio File title
-c=r"/Users/malharshah/Desktop/Speech-Evaluation-Tool/SpeechAPI/wav" # Path to the Audio_File directory
+c=r"/Users/malharshah/Desktop/Speech-Evaluation-Tool/FlaskApp/wav" # Path to the Audio_File directory
 
 #Gender recognition and mood of speech
 myspgend = str(mysp.myspgend(p,c))
@@ -32,7 +32,7 @@ total_speech_time = str(mysp.myspst(p,c))
 speaking_ratio = str(mysp.myspbala(p,c))
 
 #Store the processed input for the cohere api here
-speechProcessedInput = speech_mood + "\n" + pronunciation_score + "\n" + filler_pause_count + "\n" + speech_speed + "\n" + speaking_ratio
+speechProcessedInput = "Input: \n" + speech_mood + "\n" + pronunciation_score + "\n" + filler_pause_count + "\n" + speech_speed + "\n" + speaking_ratio
 
 print(speechProcessedInput)
 #

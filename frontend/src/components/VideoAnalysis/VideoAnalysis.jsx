@@ -4,6 +4,7 @@ import SimilarSentences from "../SimilarSentences/SimilarSentences.component";
 import { Button, FormDiv } from "./VideoAnalysis.style";
 import Loading from "./../Loading/Loading";
 import ReactLoading from "react-loading";
+import { PieChart } from "react-minimal-pie-chart";
 
 class VideoAnalysis extends React.Component {
   constructor(props) {
@@ -126,6 +127,7 @@ class VideoAnalysis extends React.Component {
             </div>
           ) : null}
         </FormDiv>
+        <div style={{ width: "30%", padding: "5em" }}></div>
         {this.state.textSummary ? (
           <div style={{ paddingTop: "2em" }}>
             <div
@@ -139,6 +141,14 @@ class VideoAnalysis extends React.Component {
               Key Metrics
             </div>
             <BoxMetrics></BoxMetrics>
+            <PieChart
+              data={[
+                { title: "One", value: 10, color: "#E38627" },
+                { title: "Two", value: 15, color: "#C13C37" },
+                { title: "Three", value: 20, color: "#6A2135" },
+              ]}
+            />
+            ;
             {this.state.topics ? (
               <div>
                 <div
@@ -183,7 +193,6 @@ class VideoAnalysis extends React.Component {
                 </div>
               </div>
             ) : null}
-
             <div
               style={{
                 width: "100%",

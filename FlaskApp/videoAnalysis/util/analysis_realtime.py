@@ -133,7 +133,7 @@ class analysis:
             self.x = gaze_ratio_lr
             self.y = gaze_ratio_ud
             self.size = left_eye_ratio
-        return frame
+        return ci, frame
 
 # Function for detecting emotion
 

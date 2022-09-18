@@ -1,9 +1,12 @@
 import React from "react";
 import FileUploadForm from "./components/FileUploadForm/FileUploadForm";
+import Header from "./components/Header/header.component";
+import NavBar from "./components/Navbar/Navbar.component";
 
 const App = () => (
   <div>
-    <h1>File Upload</h1>
+    <NavBar></NavBar>
+    <Header></Header>
     <FileUploadForm />
   </div>
 );

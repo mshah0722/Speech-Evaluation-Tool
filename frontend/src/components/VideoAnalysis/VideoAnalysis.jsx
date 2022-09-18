@@ -141,6 +141,7 @@ class VideoAnalysis extends React.Component {
             >
               Key Metrics
             </div>
+
             <BoxMetrics
               metrics={this.state.metrics}
               labels={[
@@ -278,7 +279,7 @@ class VideoAnalysis extends React.Component {
                 </div>
               </div>
             ) : null}
-            {this.state.markedVideoFilePath ? (
+            {/* {this.state.markedVideoFilePath ? (
               <iframe
                 width="560"
                 height="315"
@@ -290,7 +291,7 @@ class VideoAnalysis extends React.Component {
               />
             ) : (
               <div></div>
-            )}
+            )} */}
             <div
               style={{
                 width: "100%",
@@ -309,16 +310,29 @@ class VideoAnalysis extends React.Component {
                 fontSize: "2.5em",
                 textAlign: "center",
                 padding: "1em 0em",
-                backgroundColor: "#d0f4de",
               }}
             >
               Scoring
             </div>
-            <div>
+            <div
+              style={{
+                width: "100%",
+                fontSize: "1.5em",
+                textAlign: "center",
+                padding: "1em 0em",
+              }}
+            >
               You have a good voice tone. It is possible to be more excited and
-              energetic. The content is very basic. <br> </br>Score: Facial
-              Expression Score: 8/10 <br></br>Tonal Expressions Score: 5/10{" "}
-              <br></br>Content Score: 2/10
+              energetic. The content is very basic. <br />
+              <BoxMetrics
+                metrics={[8, 5, 2, 5]}
+                labels={[
+                  "Facial Expression Score",
+                  "Tonal Expressions Score",
+                  "Content Score",
+                  "Average",
+                ]}
+              ></BoxMetrics>
             </div>
 
             <div

@@ -86,19 +86,32 @@ def searchSimilar(df, _size, search_index, window = 3, thres = 0.82):
     for n1 in range(_size-window):
         
         for n2 in range(n1+1, n1 + window):
+
+            mid = ""
+            _mid = []
             distance = search_index.get_distance(n1, n2)
             # print(distance)
             if distance < thres:
-                pairs.append({'first': df.iloc[n1][0], 'last':df.iloc[n2][0]})
-                print("\n >>> ", n1, n2, "These ideas might be repeating and are too close")
+                for kk in range(n1+1, n2):
+                    _mid.append(df.iloc[n1][0])
+                
+                if len(_mid) > 1:
+                    mid = ".".join(_mid)
+                elif len(_mid) > 0:
+                    mid = _mid[0]
+
+                pairs.append({'first': df.iloc[n1][0], 'mid':mid, 'last':df.iloc[n2][0]})
+    
+    print(pairs)
+                # print("\n >>> ", n1, n2, "These ideas might be repeating and are too close")
     
     return pairs
 
-def test(_text):
+def similarSentence(_text):
     df, search_index = getSearchIndex(_text)
     searchSimilar(df, search_index.get_n_items(), search_index, 3)
 
-# test(_text)
+similarSentence(_text)
 
 
     

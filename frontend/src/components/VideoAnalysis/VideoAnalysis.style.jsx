@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const FormDiv = styled.nav`
+export const FormDiv = styled.div`
   width: 100%;
   box-sizing: border-box;
   display: flex;

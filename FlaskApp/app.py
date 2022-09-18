@@ -1,6 +1,5 @@
 import importlib.util as ilu
 from re import template
-from werkzeug.utils import secure_filename
 from flask import Flask, send_from_directory, flash, jsonify, request, redirect, url_for, render_template, make_response
 import audio_to_text
 import video_to_audio
@@ -10,6 +9,7 @@ import requests
 import time
 from dotenv import load_dotenv
 from flask_cors import CORS, cross_origin
+from topic_modelling import importantTopicsFromText
 
 
 app = Flask(__name__, template_folder=template)
@@ -52,10 +52,10 @@ def display_video(name):
     def configure():
         load_dotenv()
     configure()
-    video_to_audio.extractAudioFromMP4(name)
+    video_to_audio.extractAudioFromMP4(app.config["UPLOAD_FOLDER"]+"/", name)
     # text = audio_to_text.audio_to_text(name)
     filename = name
-    filepath = "./audio/"+filename[:-4]+".mp3"
+    filepath = "./assets/"+filename[:-4]+".mp3"
     print(filepath)
     # authorization
     headers = {
@@ -97,10 +97,13 @@ def display_video(name):
         print(response.json()['status'])
         time.sleep(1)
 
-    print(response.json()['text'])
-    
+    text = response.json()['text']
+    topic = importantTopicsFromText(text)
+    # similar_sentences = similarSentence(text)
 
-    return {'text': response.json()['text']}
+    # print(text, similar_sentences)
+
+    return {'text': text, 'topic': topic}
 
 
 if __name__ == '__main__':

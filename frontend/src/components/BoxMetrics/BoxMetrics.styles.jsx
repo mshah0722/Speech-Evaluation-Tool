@@ -12,16 +12,19 @@ export const ContainerDiv = styled.div`
 
 export const Box = styled.div`
   flex: 0.2;
-  background-color: pink;
+  background-color: ${(props) => props.color};
   border-radius: 10px;
   padding: 2em;
-  height: 10em;
   box-sizing: border-box;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Number = styled.div`
-  font-size: 2em;
+  font-size: 3em;
+  font-weight: 600;
+  padding-bottom: 0.5em;
 `;
 
 export const Text = styled.div`

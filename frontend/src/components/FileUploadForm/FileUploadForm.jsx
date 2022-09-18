@@ -1,23 +1,21 @@
 import React from "react";
+import { Button, FormDiv } from "./FileUploadForm.style";
 
 class FileUploadForm extends React.Component {
   constructor(props) {
     super(props);
+    this.hiddenFileInput = React.createRef();
 
     this.state = {
       videoFilePath: false,
       generateReport: false,
+      textSummary: false,
     };
-
-    this.handleUploadImage = this.handleUploadImage.bind(this);
-    this.generateReport = this.generateReport.bind(this);
   }
 
-  handleUploadImage(ev) {
-    ev.preventDefault();
-
+  handleFile(file) {
     const data = new FormData();
-    data.append("file", this.uploadInput.files[0]);
+    data.append("file", file);
 
     fetch("http://localhost:5000/upload", {
       method: "POST",
@@ -40,27 +38,48 @@ class FileUploadForm extends React.Component {
       method: "GET",
     }).then((response) => {
       response.json().then((body) => {
-        console.log(body.text);
+        this.setState({
+          textSummary: body.text,
+        });
       });
     });
   }
 
+  handleClick = (event) => {
+    event.preventDefault();
+    console.log("handle click");
+    console.log(event);
+    console.log(this.hiddenFileInput);
+    this.hiddenFileInput.current.click();
+  };
+  handleChange = (event) => {
+    console.log("in");
+    const fileUploaded = event.target.files[0];
+    console.log(fileUploaded);
+    this.handleFile(fileUploaded);
+  };
+
   render() {
     return (
-      <form onSubmit={this.handleUploadImage}>
-        <div>
-          <input
-            ref={(ref) => {
-              this.uploadInput = ref;
-            }}
-            type="file"
-          />
-        </div>
-        <br />
-        <div>
-          <button>Upload</button>
-        </div>
-
+      <FormDiv>
+        {" "}
+        <form>
+          <div>
+            <Button onClick={this.handleClick}>Upload your talk</Button>
+            <input
+              type="file"
+              ref={this.hiddenFileInput}
+              onChange={this.handleChange}
+              style={{ display: "none" }}
+            />
+            {/* <FileInput
+          ref={(ref) => {
+            this.uploadInput = ref;
+          }}
+          multiple={false}
+        ></FileInput> */}
+          </div>
+        </form>
         {this.state.videoFilePath ? (
           <iframe
             width="560"
@@ -68,12 +87,13 @@ class FileUploadForm extends React.Component {
             src={this.state.videoFilePath}
             title="Youtube Player"
             frameborder="0"
+            style={{ mergin: "2em 0em" }}
             allowFullScreen
           />
         ) : (
           <div></div>
         )}
-      </form>
+      </FormDiv>
     );
   }
 }

@@ -103,6 +103,7 @@ def display_video(name):
 
 
 if __name__ == '__main__':
+    app.secret_key = os.urandom(24)
     app.run(debug=True, host="0.0.0.0")
 
 CORS(app, expose_headers='Authorization')

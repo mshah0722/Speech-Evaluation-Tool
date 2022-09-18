@@ -1,8 +1,14 @@
-import moviepy.editor as mp
+from moviepy.editor import *
+
+def extractAudioFromMP4(mp4_path = "video/markedTest.mp4", wav_path = "audio/gen_audio.wav"):
+
+    videoclip = VideoFileClip(mp4_path)
+    audioclip = videoclip.audio
+    audioclip.write_audiofile(wav_path)
+
+    audioclip.close()
+    videoclip.close()
+
+extractAudioFromMP4()
 
 
-def extractAudioFromMP4(videoFolder, filename):
-    print(videoFolder+filename)
-    my_clip = mp.VideoFileClip(videoFolder+filename)
-    audio_path = videoFolder + filename[:-4] + ".mp3"
-    my_clip.audio.write_audiofile(audio_path)

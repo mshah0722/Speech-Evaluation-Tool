@@ -2,7 +2,6 @@
 import cohere
 import os
 from dotenv import load_dotenv
-from englishtohindi.englishtohindi import EngtoHindi
 
 def configure():
     load_dotenv()
@@ -32,7 +31,7 @@ def generateEvaluation(_text):
     stop_sequences=["--"],
     return_likelihoods='NONE')
     print('Evaluation: {}'.format(response.generations[0].text))
-    return {}.format(response.generations[0].text)
+    return response.generations[0].text
 
-# generateEvaluation(_text)
+generateEvaluation(_text)
 

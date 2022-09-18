@@ -48,6 +48,3 @@ def importantTopicsFromText(_text):
 
     print(_topicDict)
     return _topicDict
-
-
-importantTopicsFromText(_text)

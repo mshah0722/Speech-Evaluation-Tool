@@ -64,5 +64,5 @@ def getVideoAndGraph():
     
     return predictionPercentages
 
-predValues = getVideoAndGraph()
-print(predValues)
+# predValues = getVideoAndGraph()
+# print(predValues)

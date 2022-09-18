@@ -33,5 +33,3 @@ def generateEvaluation(_text):
     print('Evaluation: {}'.format(response.generations[0].text))
     return response.generations[0].text
 
-generateEvaluation(_text)
-

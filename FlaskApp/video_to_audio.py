@@ -9,6 +9,5 @@ def extractAudioFromMP4(mp4_path = "assets/test.mp4", wav_path = "audio/gen_audi
     audioclip.close()
     videoclip.close()
 
-extractAudioFromMP4()
 
 

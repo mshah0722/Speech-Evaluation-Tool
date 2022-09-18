@@ -89,7 +89,7 @@ def searchSimilar(df, _size, search_index, window = 3, thres = 0.82):
             distance = search_index.get_distance(n1, n2)
             # print(distance)
             if distance < thres:
-                pairs.append((n1, n2))
+                pairs.append({'first': df.iloc[n1][0], 'last':df.iloc[n2][0]})
                 print("\n >>> ", n1, n2, "These ideas might be repeating and are too close")
     
     return pairs

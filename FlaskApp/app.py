@@ -98,6 +98,7 @@ def display_video(name):
         time.sleep(1)
 
     print(response.json()['text'])
+    
 
     return {'text': response.json()['text']}
 

@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <HeaderDiv>
       <div style={{ width: "50%", fontSize: "2.5em", textAlign: "center" }}>
-        Wanna improve your speaking skills and give the best pitch ever?
+        Want to improve your speaking skills and give the best pitch ever?
       </div>
       <div
         style={{

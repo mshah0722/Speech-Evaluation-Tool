@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, FormDiv } from "./FileUploadForm.style";
+import { Button, FormDiv } from "./VideoAnalysis.style";
 
-class FileUploadForm extends React.Component {
+class VideoAnalysis extends React.Component {
   constructor(props) {
     super(props);
     this.hiddenFileInput = React.createRef();
@@ -61,41 +61,44 @@ class FileUploadForm extends React.Component {
 
   render() {
     return (
-      <FormDiv>
+      <div>
         {" "}
-        <form>
-          <div>
-            <Button onClick={this.handleClick}>Upload your talk</Button>
-            <input
-              type="file"
-              ref={this.hiddenFileInput}
-              onChange={this.handleChange}
-              style={{ display: "none" }}
+        <FormDiv>
+          {" "}
+          <form>
+            <div>
+              <Button onClick={this.handleClick}>Upload your talk</Button>
+              <input
+                type="file"
+                ref={this.hiddenFileInput}
+                onChange={this.handleChange}
+                style={{ display: "none" }}
+              />
+              {/* <FileInput
+        ref={(ref) => {
+          this.uploadInput = ref;
+        }}
+        multiple={false}
+      ></FileInput> */}
+            </div>
+          </form>
+          {this.state.videoFilePath ? (
+            <iframe
+              width="560"
+              height="315"
+              src={this.state.videoFilePath}
+              title="Youtube Player"
+              frameborder="0"
+              style={{ mergin: "2em 0em" }}
+              allowFullScreen
             />
-            {/* <FileInput
-          ref={(ref) => {
-            this.uploadInput = ref;
-          }}
-          multiple={false}
-        ></FileInput> */}
-          </div>
-        </form>
-        {this.state.videoFilePath ? (
-          <iframe
-            width="560"
-            height="315"
-            src={this.state.videoFilePath}
-            title="Youtube Player"
-            frameborder="0"
-            style={{ mergin: "2em 0em" }}
-            allowFullScreen
-          />
-        ) : (
-          <div></div>
-        )}
-      </FormDiv>
+          ) : (
+            <div></div>
+          )}
+        </FormDiv>
+      </div>
     );
   }
 }
 
-export default FileUploadForm;
+export default VideoAnalysis;

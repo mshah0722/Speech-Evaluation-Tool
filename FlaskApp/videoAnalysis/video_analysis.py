@@ -17,7 +17,7 @@ def getVideoAndGraph():
 
     size = (frame_width, frame_height)
 
-    result = cv2.VideoWriter('../video/markedTest.mp4', 
+    result = cv2.VideoWriter('../assets/markedTest.mp4', 
                             cv2.VideoWriter_fourcc(*'MP4V'),
                             10, size)
 

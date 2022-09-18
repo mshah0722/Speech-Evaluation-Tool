@@ -1,6 +1,9 @@
 import React from "react";
 import BoxMetrics from "../BoxMetrics/BoxMetrics.component";
+import SimilarSentences from "../SimilarSentences/SimilarSentences.component";
 import { Button, FormDiv } from "./VideoAnalysis.style";
+import Loading from "./../Loading/Loading";
+import ReactLoading from "react-loading";
 
 class VideoAnalysis extends React.Component {
   constructor(props) {
@@ -11,6 +14,8 @@ class VideoAnalysis extends React.Component {
       videoFilePath: false,
       generateReport: false,
       textSummary: false,
+      similarSentences: false,
+      topics: false,
     };
   }
 
@@ -39,9 +44,16 @@ class VideoAnalysis extends React.Component {
       method: "GET",
     }).then((response) => {
       response.json().then((body) => {
-        this.setState({
-          textSummary: body.text,
-        });
+        console.log(body);
+        console.log(body.text);
+        console.log(body.topic);
+        this.setState(
+          {
+            textSummary: body.text,
+            topics: body.topic,
+          },
+          console.log(this.state)
+        );
       });
     });
   }
@@ -89,15 +101,102 @@ class VideoAnalysis extends React.Component {
               height="315"
               src={this.state.videoFilePath}
               title="Youtube Player"
-              frameborder="0"
+              frameBorder="0"
               style={{ mergin: "2em 0em" }}
               allowFullScreen
             />
           ) : (
             <div></div>
           )}
+          {this.state.generateReport && !this.state.textSummary ? (
+            <div
+              style={{
+                paddingTop: "1em",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <div style={{ paddingRight: "2em", fontSize: "1.5em" }}>
+                Generating Speech Report
+              </div>
+              <Loading type="cylon" color="#000" height="4em" width="4em" />
+            </div>
+          ) : null}
         </FormDiv>
-        <BoxMetrics></BoxMetrics>
+        {this.state.textSummary ? (
+          <div style={{ paddingTop: "2em" }}>
+            <div
+              style={{
+                width: "100%",
+                fontSize: "2.5em",
+                textAlign: "center",
+                padding: "1em 0em",
+              }}
+            >
+              Key Metrics
+            </div>
+            <BoxMetrics></BoxMetrics>
+            {this.state.topics ? (
+              <div>
+                <div
+                  style={{
+                    width: "100%",
+                    fontSize: "2.5em",
+                    textAlign: "center",
+                    padding: "1em 0em",
+                  }}
+                >
+                  3 Big Ideas
+                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    fontSize: "1.5em",
+                    textAlign: "center",
+                    padding: "1em 0em",
+                  }}
+                >
+                  {this.state.topics[0]}
+                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    fontSize: "1.25em",
+                    textAlign: "center",
+                    padding: "1em 0em",
+                  }}
+                >
+                  {this.state.topics[1]}
+                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    fontSize: "1em",
+                    textAlign: "center",
+                    padding: "1em 0em",
+                  }}
+                >
+                  {this.state.topics[2]}
+                </div>
+              </div>
+            ) : null}
+
+            <div
+              style={{
+                width: "100%",
+                fontSize: "2.5em",
+                textAlign: "center",
+                padding: "1em 0em",
+              }}
+            >
+              Repetition of Ideas
+            </div>
+            <SimilarSentences></SimilarSentences>
+          </div>
+        ) : null}
       </div>
     );
   }

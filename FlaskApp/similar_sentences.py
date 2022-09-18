@@ -1,12 +1,10 @@
-
 import cohere
 from dotenv import load_dotenv
 import os
 import numpy as np
 from numpy.linalg import norm
-from annoy import AnnoyIndex
+# from annoy import AnnoyIndex
 import pandas as pd
-
 
 
 def configure():
@@ -107,3 +105,8 @@ def searchSimilar(df, _size, search_index, window=3, thres=0.82):
     # print("\n >>> ", n1, n2, "These ideas might be repeating and are too close")
 
     return pairs
+
+
+def similarSentence(_text):
+    df, search_index = getSearchIndex(_text)
+    searchSimilar(df, search_index.get_n_items(), search_index, 3)

@@ -24,11 +24,18 @@ def getVideoAndGraph():
 
     while(cap.isOpened()):
         ret, frame = cap.read()
-        result.write(frame)
+        # result.write(frame)
 
         pred, bm = ana.detect_face(frame)
-        preds_graph.append(pred)
+        print(pred)
 
+        if pred == "You are highly engaged!":
+            preds_graph.append(5)
+        elif pred == "You are engaged.":
+            preds_graph.append(4)
+        else:
+            preds_graph.append(2)
+        
         cv2.imshow('Frame',frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -39,4 +46,7 @@ def getVideoAndGraph():
 
     cv2.destroyAllWindows()
 
+    
     return preds_graph
+
+predValues = getVideoAndGraph()

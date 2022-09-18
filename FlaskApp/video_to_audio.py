@@ -1,6 +1,7 @@
 from moviepy.editor import *
 
-def extractAudioFromMP4(mp4_path = "video/markedTest.mp4", wav_path = "audio/gen_audio.wav"):
+
+def extractAudioFromMP4(mp4_path, wav_path):
 
     videoclip = VideoFileClip(mp4_path)
     audioclip = videoclip.audio
@@ -8,7 +9,3 @@ def extractAudioFromMP4(mp4_path = "video/markedTest.mp4", wav_path = "audio/gen
 
     audioclip.close()
     videoclip.close()
-
-extractAudioFromMP4()
-
-

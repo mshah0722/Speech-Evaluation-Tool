@@ -9,7 +9,7 @@ def getVideoAndGraph():
     cap = cv2.VideoCapture('../video/test.mp4')
     ana = analysis()
 
-    if (cap.isOpened() == False): 
+    if (cap.isOpened() == False):
         print("Error reading video file")
 
     frame_width = int(cap.get(3))
@@ -17,9 +17,9 @@ def getVideoAndGraph():
 
     size = (frame_width, frame_height)
 
-    result = cv2.VideoWriter('../assets/markedTest.mp4', 
-                            cv2.VideoWriter_fourcc(*'MP4V'),
-                            10, size)
+    result = cv2.VideoWriter('../assets/markedTest.mp4',
+                             cv2.VideoWriter_fourcc(*'MP4V'),
+                             10, size)
 
     preds_graph = []
 
@@ -40,29 +40,30 @@ def getVideoAndGraph():
                 preds_graph.append(4)
             else:
                 preds_graph.append(2)
-            
-            cv2.imshow('Frame',frame)
 
-            count += 30 # i.e. at 30 fps, this advances one second
+            cv2.imshow('Frame', frame)
+
+            count += 30  # i.e. at 30 fps, this advances one second
             cap.set(cv2.CAP_PROP_POS_FRAMES, count)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-        else:    
+        else:
             cap.release()
             result.release()
             break
-        
+
     _x = [i+1 for i in range(len(preds_graph))]
     # sns.lineplot(_x, preds_graph)
     # plt.savefig('../images/graph.png')
-    
 
     cv2.destroyAllWindows()
 
-    predictionPercentages = {'high': (preds_graph.count(5)/len(preds_graph)) * 100, 'good': (preds_graph.count(4)/len(preds_graph))*100, 'low': (preds_graph.count(2)/len(preds_graph))*100}
-    
+    predictionPercentages = {'high': (preds_graph.count(5)/len(preds_graph)) * 100, 'good': (
+        preds_graph.count(4)/len(preds_graph))*100, 'low': (preds_graph.count(2)/len(preds_graph))*100}
+
     return predictionPercentages
+
 
 predValues = getVideoAndGraph()
 print(predValues)

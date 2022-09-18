@@ -42,7 +42,15 @@ def importantTopicsFromText(_text):
     presence_penalty=0,
     stop_sequences=["--"],
     return_likelihoods='NONE')
-    print('Topics: {}'.format(response.generations[0].text))
+    topics = response.generations[0].text.split(',')
+    topics = [t.strip().lower() for t in topics]
 
+    _topicDict = {}
+    for i in range(len(topics)):
+        _topicDict[i] = topics[i]
+    
+    print(_topicDict)
+    return _topicDict
+    
 importantTopicsFromText(_text)
 
